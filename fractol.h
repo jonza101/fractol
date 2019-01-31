@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 13:17:02 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/29 14:34:00 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/01/31 18:01:31 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 
 #include <pthread.h>
 #include <stdio.h>
+
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <string.h>
 
 #include "OpenCL/cl.h"
 #include "OpenCL/opencl.h"
@@ -49,11 +55,13 @@ typedef struct  s_mlx
 	int			endian;
 
 	int			index;
+	int			threads;
 
 	int			h;
 	int			w;
 
 	int			max_iteration;
+	int			prev_iter;
 	double		zoom;
 	double		move_x;
 	double		move_y;
@@ -67,15 +75,17 @@ typedef struct  s_mlx
 	double		old_re;
 	double		old_im;
 
-	int 		i_mand;
-	int			i_julia;
+	t_opencl	*kernel;
 }               t_mlx;
 
-void	ft_start_mandelbrot(t_mlx *mlx);
 void	ft_mandelbrot(t_mlx *mlx);
-
 void	ft_julia(t_mlx *mlx);
 
-void	ft_opencl_start(t_mlx *mlx);
+void	ft_info(t_mlx *mlx);
+
+void	ft_start_cl(t_mlx *mlx);
+void	ft_compile_cl(t_mlx *mlx);
+
+void	ft_test();
 
 #endif
