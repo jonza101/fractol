@@ -6,12 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 13:59:56 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/31 17:20:41 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/03 19:44:10 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
 
 void	ft_mandelbrot(t_mlx *mlx)
 {
@@ -21,17 +20,20 @@ void	ft_mandelbrot(t_mlx *mlx)
 	int w;
 	int h;
 
-	y = (mlx->h / 1) * (mlx->index / (MAX_THR / 1));
-	h = (mlx->h / 2) * (mlx->index / (MAX_THR / 2)) + (mlx->h / 2);
+	y = 0;
+	h = mlx->h;
 	w = (mlx->w / (MAX_THR / 1)) * (mlx->index % (MAX_THR / 1)) + (mlx->w / (MAX_THR / 1));
-	while (y < mlx->h)
+	while (y < h)
 	{
 		x = (mlx->w / (MAX_THR / 1)) * (mlx->index % (MAX_THR / 1));
 		while(x < w)
 		{
-    		mlx->pr = 1.5 * (x - mlx->w / 2) / (0.5 * mlx->zoom * mlx->w) + mlx->move_x;
-    		mlx->pi = (y - mlx->h / 2) / (0.5 * mlx->zoom * mlx->h) + mlx->move_y;
-    		mlx->new_re = mlx->new_im = mlx->old_re = mlx->old_im = 0;
+    		mlx->pr = 1.77 * (x - mlx->w / 2) / (mlx->w / 2 * mlx->zoom) + mlx->move_x;
+    		mlx->pi = (y - mlx->h / 2) / (mlx->h / 2 * mlx->zoom) + mlx->move_y;
+    		mlx->new_re = 0;
+			mlx->new_im = 0;
+			mlx->old_re = 0;
+			mlx->old_im = 0;
 			i = 0;
 			while (i < mlx->max_iteration)
 			{

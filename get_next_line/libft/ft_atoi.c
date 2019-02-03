@@ -6,13 +6,11 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 14:04:22 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2018/12/05 17:59:21 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2018/12/03 12:58:24 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 static	void	ft_start(int *i, int *is_negative, char *str, int *res)
 {

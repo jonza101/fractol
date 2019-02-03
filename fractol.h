@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 13:17:02 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/31 18:01:31 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/03 19:37:51 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 # define FRACTOL_H
 
 #include "mlx.h"
-#include "libft/libft.h"
+#include "get_next_line/get_next_line.h"
 
 #include <pthread.h>
+#include <math.h>
 #include <stdio.h>
 
 # include <sys/types.h>
@@ -74,16 +75,30 @@ typedef struct  s_mlx
 	double		new_im;
 	double		old_re;
 	double		old_im;
+	double		t_re;
+	double		t_im;
+
+	int			julia_change_trigger;
 
 	t_opencl	*kernel;
 }               t_mlx;
 
 void	ft_mandelbrot(t_mlx *mlx);
 void	ft_julia(t_mlx *mlx);
+void	ft_ship(t_mlx *mlx);
+void	ft_spider(t_mlx * mlx);
+
+void	ft_thread(t_mlx *mlx);
+
+void	ft_mouse_cent(int x, int y, t_mlx *mlx);
+void	ft_mouse_zoom_in(int x, int y, t_mlx *mlx);
+void	ft_mouse_zoom_out(int x, int y, t_mlx *mlx);
+
+void	ft_julia_change(int x, int y, t_mlx *mlx);
 
 void	ft_info(t_mlx *mlx);
 
-void	ft_start_cl(t_mlx *mlx);
+//void	ft_start_cl(t_mlx *mlx);
 void	ft_compile_cl(t_mlx *mlx);
 
 void	ft_test();

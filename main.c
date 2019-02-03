@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 13:16:25 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/31 17:28:59 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/03 20:04:36 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	ft_info(t_mlx *mlx)
 	printf("move_x %f\n", mlx->move_x);
 	printf("move_y %f\n", mlx->move_y);
 	printf("iter %d\n", mlx->max_iteration);
-	printf("index %d\n\n", mlx->index);
+	printf("mlx->julia_change_trigger %d\n", mlx->julia_change_trigger);
+	printf("c_re %f\n", mlx->c_re);
+	printf("c_im %f\n\n", mlx->c_im);
 }
 
 void	ft_start(t_mlx *mlx)
@@ -32,7 +34,8 @@ void	ft_start(t_mlx *mlx)
 	mlx->move_y = 0;
 	mlx->c_re = -0.7;
 	mlx->c_im = 0.27015;
-	mlx->max_iteration = 150;
+	mlx->max_iteration = 100;
+	mlx->julia_change_trigger = 0;
 }
 
 void	ft_thread(t_mlx *mlx)
@@ -76,25 +79,52 @@ void	ft_thread(t_mlx *mlx)
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 }
 
+int		mouse_move(int x, int y, t_mlx *mlx)
+{
+
+	if (mlx->julia_change_trigger == 1)
+	{
+		ft_julia_change(x, y, mlx);
+		ft_thread(mlx);
+		ft_info(mlx);
+	}
+	return (0);
+}
+
 int		mouse_press(int button, int x, int y, t_mlx *mlx)
 {
+	mlx->w = 1920;
+	mlx->h = 1080;
+	if (button == 1)
+		ft_mouse_cent(x, y, mlx);
 	if (button == 4)
 	{
+		//ft_mouse_zoom_in(x, y, mlx);
 		mlx->zoom *= 1.25;
 		ft_thread(mlx);
 	}
 	if (button == 5)
 	{
+		//ft_mouse_zoom_out(x, y, mlx);
 		mlx->zoom /= 1.25;
 		ft_thread(mlx);
 	}
+	if (button == 3)
+		mlx->julia_change_trigger = !mlx->julia_change_trigger;
 	return (0);
 }
 
 int     key_press(int keycode, t_mlx *mlx)
 {
+	mlx->w = 1920;
+	mlx->h = 1080;
     if (keycode == 53)
         exit(0);
+	if (keycode == 15)
+	{
+		ft_start(mlx);
+		ft_thread(mlx);
+	}
 	if (keycode == 24)
 	{
 		mlx->max_iteration += 10;
@@ -152,8 +182,9 @@ int     main(int argc, char const *argv[])
 	//ft_test();
 
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-    mlx_hook(mlx->win, 2, 0, key_press, mlx);
-	mlx_hook(mlx->win, 4, 2, mouse_press, mlx);
+    mlx_hook(mlx->win, 2, 1, key_press, mlx);
+	mlx_hook(mlx->win, 4, 1, mouse_press, mlx);
+	mlx_hook(mlx->win, 6, 1, mouse_move, mlx);
     mlx_loop(mlx);
     return 0;
 }

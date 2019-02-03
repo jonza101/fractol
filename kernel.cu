@@ -1,16 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   kernel.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/31 14:23:57 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/02 17:35:06 by zjeyne-l         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "fractol.h"
+
+__kernel void test();
 
 // void	ft_start_cl(t_mlx *mlx)
 // {
@@ -37,11 +27,17 @@ void	ft_compile_cl(t_mlx *mlx)
 	char *temp;
 	int i;
 
-	fd = open("test.cl", O_RDONLY);
-	char buff[256];
-	while (read(fd, buff, 256))
+	fd = open("test_kernel.cl", O_RDONLY);
+	temp = ft_strnew(1);
+	source_str = ft_strnew(1);
+	while (1)
 	{
-		source_str = ft_strdup((const char*)buff);
+		while (get_next_line(fd, &temp) != 0)
+		{
+			source_str = ft_strjoin(source_str, temp);
+			source_str = ft_strjoin(source_str, "\n");
+		}
+		break ;
 	}
 	close(fd);
 
@@ -83,6 +79,7 @@ void	ft_compile_cl(t_mlx *mlx)
 	size_t len_status;
 	size_t len_options;
 	char device_info[512];
+	char device_ext[512];
 
 	if ((mlx->kernel->ret = clBuildProgram(program, 1, &mlx->kernel->device_id, NULL, NULL, NULL)) != CL_SUCCESS)
 	{
@@ -90,8 +87,10 @@ void	ft_compile_cl(t_mlx *mlx)
 		//printf("Kernel Error!\n");
 
 		clGetDeviceInfo(mlx->kernel->device_id, CL_DEVICE_NAME, 512, device_info, NULL);
+		clGetDeviceInfo(mlx->kernel->device_id, CL_DEVICE_EXTENSIONS, 512, device_ext, NULL);
 
 		printf("\nDEVICE INFO: %s\n", device_info);
+		printf("\nDEVICE EXT: %s\n", device_ext);
 
 		clGetProgramBuildInfo(program, mlx->kernel->device_id, CL_PROGRAM_BUILD_LOG, 0, NULL, &len_log);
 		clGetProgramBuildInfo(program, mlx->kernel->device_id, CL_PROGRAM_BUILD_STATUS, 0, NULL, &len_status);
@@ -105,7 +104,7 @@ void	ft_compile_cl(t_mlx *mlx)
 		clGetProgramBuildInfo(program, mlx->kernel->device_id, CL_PROGRAM_BUILD_STATUS, len_status, status, NULL);
 		clGetProgramBuildInfo(program, mlx->kernel->device_id, CL_PROGRAM_BUILD_STATUS, len_options, options, NULL);
 
-		printf("\nLOG: %s", log);
+		printf("\nLOG: %s\n", log);
 		printf("\nSTATUS: %s\n", status);
 		printf("\nOPTIONS: %s\n", options);
 		exit(0);

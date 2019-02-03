@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/31 14:41:21 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/01/31 14:59:12 by zjeyne-l         ###   ########.fr       */
+/*   Created: 2018/11/29 12:52:51 by zjeyne-l          #+#    #+#             */
+/*   Updated: 2019/02/01 21:30:58 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# define BUFF_SIZE 32
 
-void	ft_test()
-{
-	long i = 0;
-	while (i < 100000000)
-		i++;
-}
+# include "libft/libft.h"
+
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
+
+int			get_next_line(const int fd, char **line);
+void		ft_cut_line(char **temp, int fd, char **line, int len);
+int			ft_newline_check(char *buff);
+
+#endif
