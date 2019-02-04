@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 13:17:02 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/03 19:37:51 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/04 18:07:19 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ typedef	struct	s_opencl
 	cl_context			context;
 	cl_command_queue	commant_queue;
 }				t_opencl;
+
+typedef	struct	s_triangle
+{
+	int			x;
+	int			y;
+}				t_triangle;
 
 typedef struct  s_mlx
 {
@@ -87,6 +93,12 @@ void	ft_mandelbrot(t_mlx *mlx);
 void	ft_julia(t_mlx *mlx);
 void	ft_ship(t_mlx *mlx);
 void	ft_spider(t_mlx * mlx);
+void	ft_newton(t_mlx *mlx);
+void	ft_thorn(t_mlx *mlx);
+void	ft_triangle_start(t_mlx *mlx);
+
+void	ft_draw_line(t_mlx *mlx, int xo, int yo, int x, int y, int color);
+void	ft_draw_rect(t_mlx *mlx, int x, int y, int width, int height, int color);
 
 void	ft_thread(t_mlx *mlx);
 

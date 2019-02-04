@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 18:10:59 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/03 19:26:15 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/03 20:17:08 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_julia(t_mlx *mlx)
 		while(x < w)
 		{
 			mlx->new_re = 1.77 * (x - mlx->w / 2) / (mlx->zoom * mlx->w / 2) + mlx->move_x;
-    		mlx->new_im = 1 * (y - mlx->h / 2) / (mlx->zoom * mlx->h / 2) + mlx->move_y;
+    		mlx->new_im = (y - mlx->h / 2) / (mlx->zoom * mlx->h / 2) + mlx->move_y;
 			i = 0;
 			while (i < mlx->max_iteration)
 			{

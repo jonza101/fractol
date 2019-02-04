@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 13:16:25 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/03 20:04:36 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/04 18:48:40 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_start(t_mlx *mlx)
 {
 	mlx->w = 1920;
 	mlx->h = 1080;
-	mlx->zoom = 0.75;
+	mlx->zoom = 0.5;
 	mlx->move_x = 0;
 	mlx->move_y = 0;
 	mlx->c_re = -0.7;
@@ -53,7 +53,7 @@ void	ft_thread(t_mlx *mlx)
 		copy[i]->index = i;
 		copy[i]->w = 1920;
 		copy[i]->h = 1080;
-		if ((pthread_create(&thread[i], NULL, (void*)ft_mandelbrot, (void*)copy[i])) != 0)
+		if ((pthread_create(&thread[i], NULL, (void*)ft_spider, (void*)copy[i])) != 0)
 		{
 			printf("Thread error!\n");
 			exit(0);
@@ -109,8 +109,8 @@ int		mouse_press(int button, int x, int y, t_mlx *mlx)
 		mlx->zoom /= 1.25;
 		ft_thread(mlx);
 	}
-	if (button == 3)
-		mlx->julia_change_trigger = !mlx->julia_change_trigger;
+	// if (button == 3)
+	// 	mlx->julia_change_trigger = !mlx->julia_change_trigger;
 	return (0);
 }
 
@@ -175,6 +175,8 @@ int     main(int argc, char const *argv[])
 	
 	ft_start(mlx);
 	ft_thread(mlx);
+
+	//ft_triangle_start(mlx);
 
 	// ft_start_cl(mlx);
 	// ft_compile_cl(mlx);
