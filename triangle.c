@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 16:59:56 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/04 17:47:49 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/05 19:59:38 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,19 @@ void	ft_triangle_start(t_mlx *mlx)
 	a = (t_triangle*)malloc(sizeof(t_triangle));
 	b = (t_triangle*)malloc(sizeof(t_triangle));
 	c = (t_triangle*)malloc(sizeof(t_triangle));
-	printf("zoom %f\n", mlx->zoom);
-	a->x = (mlx->w * 0.75) * mlx->zoom + mlx->move_x;
-	a->y = (mlx->h * 0.75) * mlx->zoom + mlx->move_y;
-	b->x = (mlx->w / 4) * mlx->zoom + mlx->move_x;
-	b->y = (mlx->h * 0.75) * mlx->zoom + mlx->move_y;
-	c->x = (mlx->w / 2) * mlx->zoom + mlx->move_x;
-	c->y = (mlx->h / 4) * mlx->zoom + mlx->move_y;
+	a->x = (mlx->w * 0.75) / 1 + mlx->move_x * 10;
+	a->y = (mlx->h * 0.75) / 1 + mlx->move_y * 10;
+	b->x = (mlx->w / 4) / 1 + mlx->move_x * 10;
+	b->y = (mlx->h * 0.75) / 1 + mlx->move_y * 10;
+	c->x = (mlx->w / 2) / 1 + mlx->move_x * 10;
+	c->y = (mlx->h / 4) / 1 + mlx->move_y * 10;
 
 	ft_draw_line(mlx, a->x, a->y, b->x, b->y, 0xFF00FF);
 	ft_draw_line(mlx, b->x, b->y, c->x, c->y, 0xFF00FF);
 	ft_draw_line(mlx, a->x, a->y, c->x, c->y, 0xFF00FF);
 
 	ft_triangle(mlx, a, b, c, mlx->max_iteration);
+	free(a);
+	free(b);
+	free(c);
 }

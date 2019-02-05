@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 16:04:54 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/04 16:49:09 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/05 15:20:14 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,24 @@ void	ft_draw_rect(t_mlx *mlx, int x, int y, int width, int height, int color)
 	ft_draw_line(mlx, x + width, y, x + width, y + height, color);
 	ft_draw_line(mlx, x + width, y + height, x, y + height, color);
 	ft_draw_line(mlx, x, y + height, x, y, color);
+}
+
+void	ft_fill_rect(t_mlx *mlx, int x, int y, int width, int height, int color)
+{
+	ft_draw_rect(mlx, x, y, width, height, color);
+	int xo;
+	int yo;
+
+	xo = x;
+	yo = y;
+	while (x < xo + width)
+	{
+		y = yo;
+		while (y < yo + height)
+		{
+			mlx->data[4 * x + 4 * y * mlx->w] = mlx_get_color_value(mlx->mlx, color);
+			y++;
+		}
+		x++;
+	}
 }

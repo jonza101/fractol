@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 18:10:59 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/03 20:17:08 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/05 15:47:32 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 void	ft_julia(t_mlx *mlx)
 {
 	int x;
+	int xo;
 	int y;
 	int i;
 	int w;
-	int h;
 
 	y = 0;
-	h = mlx->h;
-	w = (mlx->w / (MAX_THR / 1)) * (mlx->index % (MAX_THR / 1)) + (mlx->w / (MAX_THR / 1));
-	while (y < h)
+	xo = (mlx->w / MAX_THR) * (mlx->index % MAX_THR);
+	w = (mlx->w / MAX_THR) * (mlx->index % MAX_THR) + (mlx->w / MAX_THR);
+	while (y < mlx->h)
 	{
-		x = (mlx->w / (MAX_THR / 1)) * (mlx->index % (MAX_THR / 1));
+		x = xo;
 		while(x < w)
 		{
 			mlx->new_re = 1.77 * (x - mlx->w / 2) / (mlx->zoom * mlx->w / 2) + mlx->move_x;

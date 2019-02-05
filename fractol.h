@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 13:17:02 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/04 18:07:19 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/05 19:46:29 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ typedef struct  s_mlx
 	int			index;
 	int			threads;
 
+	int			func_index;
+	char		*fractol;
+	void		*func[8];
+
 	int			h;
 	int			w;
 
@@ -96,9 +100,14 @@ void	ft_spider(t_mlx * mlx);
 void	ft_newton(t_mlx *mlx);
 void	ft_thorn(t_mlx *mlx);
 void	ft_triangle_start(t_mlx *mlx);
+void	ft_biomorph(t_mlx * mlx);
+
+void	ft_fill_funcs(t_mlx *mlx);
+void	ft_fractal_check(t_mlx *mlx);
 
 void	ft_draw_line(t_mlx *mlx, int xo, int yo, int x, int y, int color);
 void	ft_draw_rect(t_mlx *mlx, int x, int y, int width, int height, int color);
+void	ft_fill_rect(t_mlx *mlx, int x, int y, int width, int height, int color);
 
 void	ft_thread(t_mlx *mlx);
 
@@ -110,7 +119,6 @@ void	ft_julia_change(int x, int y, t_mlx *mlx);
 
 void	ft_info(t_mlx *mlx);
 
-//void	ft_start_cl(t_mlx *mlx);
 void	ft_compile_cl(t_mlx *mlx);
 
 void	ft_test();

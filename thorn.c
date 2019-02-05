@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:02:26 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/04 18:48:22 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/05 15:46:23 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 void	ft_thorn(t_mlx *mlx)
 {
 	int x;
+	int xo;
 	int y;
 	int i;
 	int w;
-	int h;
 
 	y = 0;
-	h = mlx->h;
-	w = (mlx->w / (MAX_THR / 1)) * (mlx->index % (MAX_THR / 1)) + (mlx->w / (MAX_THR / 1));
-	while (y < h)
+	xo = (mlx->w / MAX_THR) * (mlx->index % MAX_THR);
+	w = (mlx->w / MAX_THR) * (mlx->index % MAX_THR) + (mlx->w / MAX_THR);
+	while (y < mlx->h)
 	{
-		x = (mlx->w / (MAX_THR / 1)) * (mlx->index % (MAX_THR / 1));
+		x = xo;
 		while(x < w)
 		{
     		mlx->pr = 1.77 * (x - mlx->w / 2) / (mlx->w / 2 * mlx->zoom) + mlx->move_x;

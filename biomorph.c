@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot.c                                       :+:      :+:    :+:   */
+/*   biomorph.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/26 13:59:56 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/05 18:19:15 by zjeyne-l         ###   ########.fr       */
+/*   Created: 2019/02/05 15:22:17 by zjeyne-l          #+#    #+#             */
+/*   Updated: 2019/02/05 18:40:29 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	ft_mandelbrot(t_mlx *mlx)
+void	ft_biomorph(t_mlx * mlx)
 {
 	int x;
 	int xo;
 	int y;
 	int i;
 	int w;
+	double cx = 0.5;
+	double cy = 0;
 
 	y = 0;
 	xo = (mlx->w / MAX_THR) * (mlx->index % MAX_THR);
@@ -30,22 +32,17 @@ void	ft_mandelbrot(t_mlx *mlx)
 		{
     		mlx->pr = 1.77 * (x - mlx->w / 2) / (mlx->w / 2 * mlx->zoom) + mlx->move_x;
     		mlx->pi = (y - mlx->h / 2) / (mlx->h / 2 * mlx->zoom) + mlx->move_y;
-    		mlx->new_re = 0;
-			mlx->new_im = 0;
-			mlx->old_re = 0;
-			mlx->old_im = 0;
 			i = 0;
-			while (i < mlx->max_iteration)
+			while ((fabs(mlx->pr) < mlx->max_iteration) && (fabs(mlx->pi) < mlx->max_iteration) && (i < mlx->max_iteration))
 			{
-    			mlx->old_re = mlx->new_re;
-    			mlx->old_im = mlx->new_im;
-    			mlx->new_re = mlx->old_re * mlx->old_re - mlx->old_im * mlx->old_im + mlx->pr;
-      			mlx->new_im = 2 * mlx->old_re * mlx->old_im + mlx->pi;
-      			if((mlx->new_re * mlx->new_re + mlx->new_im * mlx->new_im) > 4)
-					break;
+				mlx->new_re = mlx->pr;
+				mlx->new_im = mlx->pi;
+				mlx->pr = pow(mlx->pr, 3) - 3 * mlx->new_re * pow(mlx->new_im, 2) + cx;
+				mlx->pi = 3 * pow(mlx->new_re, 2) * mlx->new_im - pow(mlx->new_im, 3) + cy;
 				i++;
-    		}
-			mlx->data[4 * x + mlx->w * 4 * y] = mlx_get_color_value(mlx->mlx, i * 0xB68EE * (i < mlx->max_iteration)); //i * (i % mlx->max_iteration) || i * 0xB68EE * (i < mlx->max_iteration)
+			}
+			if (!(fabs(mlx->pr) >= 300) && !(fabs(mlx->pi) >= 10000))
+				ft_fill_rect(mlx, x, y, 1, 1, 255);
 			x++;
 		}
 		y++;
