@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 18:02:26 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/05 15:46:23 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/06 19:38:20 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_thorn(t_mlx *mlx)
 				mlx->pi = mlx->old_im / cos(mlx->old_re) + mlx->old_im;
 				i++;
 			}
-			mlx->data[4 * x + 4 * y * mlx->w] = mlx_get_color_value(mlx->mlx, (i * 25) % 255);
+			mlx->data[x + y * mlx->w] = mlx_get_color_value(mlx->mlx, i * mlx->color[mlx->color_index] * (i < mlx->max_iteration));
 			x++;
 		}
 		y++;

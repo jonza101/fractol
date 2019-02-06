@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 13:17:02 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/05 19:46:29 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/06 19:45:37 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FRACTOL_H
 
 #include "mlx.h"
-#include "get_next_line/get_next_line.h"
+#include "libft/libft.h"
 
 #include <pthread.h>
 #include <math.h>
@@ -56,7 +56,7 @@ typedef struct  s_mlx
     void    	*win;
 
     void    	*img;
-	char		*data;
+	int			*data;
 	int			bpp;
 	int			size_line;
 	int			endian;
@@ -67,6 +67,9 @@ typedef struct  s_mlx
 	int			func_index;
 	char		*fractol;
 	void		*func[8];
+
+	int			color[32];
+	int			color_index;
 
 	int			h;
 	int			w;
@@ -105,6 +108,12 @@ void	ft_biomorph(t_mlx * mlx);
 void	ft_fill_funcs(t_mlx *mlx);
 void	ft_fractal_check(t_mlx *mlx);
 
+void	ft_start(t_mlx *mlx);
+void	ft_fractal_change(t_mlx *mlx, int dir);
+
+void	ft_color_set(t_mlx *mlx);
+void	ft_color_change(t_mlx *mlx, int dir);
+
 void	ft_draw_line(t_mlx *mlx, int xo, int yo, int x, int y, int color);
 void	ft_draw_rect(t_mlx *mlx, int x, int y, int width, int height, int color);
 void	ft_fill_rect(t_mlx *mlx, int x, int y, int width, int height, int color);
@@ -118,6 +127,7 @@ void	ft_mouse_zoom_out(int x, int y, t_mlx *mlx);
 void	ft_julia_change(int x, int y, t_mlx *mlx);
 
 void	ft_info(t_mlx *mlx);
+void	ft_reset_image(t_mlx *mlx);
 
 void	ft_compile_cl(t_mlx *mlx);
 

@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 15:22:17 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/05 18:40:29 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/06 19:38:18 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_biomorph(t_mlx * mlx)
 				i++;
 			}
 			if (!(fabs(mlx->pr) >= 300) && !(fabs(mlx->pi) >= 10000))
-				ft_fill_rect(mlx, x, y, 1, 1, 255);
+				ft_fill_rect(mlx, x, y, 1, 1, i * mlx->color[mlx->color_index] * (i < mlx->max_iteration));
 			x++;
 		}
 		y++;

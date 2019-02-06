@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/03 19:27:38 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/05 15:47:07 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/06 19:38:26 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_spider(t_mlx * mlx)
 					break ;
 				i += 2;
     		}
-			mlx->data[4 * x + mlx->w * 4 * y] = mlx_get_color_value(mlx->mlx, i * 0xB68EE * (i < mlx->max_iteration));
+			mlx->data[x + mlx->w * y] = mlx_get_color_value(mlx->mlx, i * mlx->color[mlx->color_index] * (i < mlx->max_iteration));
 			x++;
 		}
 		y++;

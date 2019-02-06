@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 13:59:56 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/05 18:19:15 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/06 19:37:54 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_mandelbrot(t_mlx *mlx)
 					break;
 				i++;
     		}
-			mlx->data[4 * x + mlx->w * 4 * y] = mlx_get_color_value(mlx->mlx, i * 0xB68EE * (i < mlx->max_iteration)); //i * (i % mlx->max_iteration) || i * 0xB68EE * (i < mlx->max_iteration)
+			mlx->data[x + mlx->w * y] = mlx_get_color_value(mlx->mlx, i * mlx->color[mlx->color_index] * (i < mlx->max_iteration));//i * 0xB68EE * (i < mlx->max_iteration)
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 16:04:54 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/05 15:20:14 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/06 18:54:46 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	ft_draw_line(t_mlx *mlx, int xo, int yo, int x, int y, int color)
 	else
 		delta_y = 1;
 	if (xo >= 0 && xo < mlx->w && yo >= 0 && yo < mlx->h)
-			mlx->data[4 * xo + 4 * yo * mlx->w] = mlx_get_color_value(mlx->mlx, color);
+			mlx->data[xo + yo * mlx->w] = mlx_get_color_value(mlx->mlx, color);
 	while (xo != x || yo != y)
 	{
 		if (xo >= 0 && xo < mlx->w && yo >= 0 && yo < mlx->h)
-			mlx->data[4 * xo + 4 * yo * mlx->w] = mlx_get_color_value(mlx->mlx, color);
+			mlx->data[xo + yo * mlx->w] = mlx_get_color_value(mlx->mlx, color);
 		if (error * 2 > -angle_y)
 		{
 			error -= angle_y;
@@ -73,7 +73,7 @@ void	ft_fill_rect(t_mlx *mlx, int x, int y, int width, int height, int color)
 		y = yo;
 		while (y < yo + height)
 		{
-			mlx->data[4 * x + 4 * y * mlx->w] = mlx_get_color_value(mlx->mlx, color);
+			mlx->data[x + y * mlx->w] = mlx_get_color_value(mlx->mlx, color);
 			y++;
 		}
 		x++;

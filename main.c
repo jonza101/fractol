@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 13:16:25 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/05 20:04:01 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/06 19:48:42 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_error_mes()
 {
-	ft_putstr("Usage: ./fractol [fractal]\nAvailable fractals:\n - Mandelbrot (m)\n - Julia (j)\n - Spider (s)\n - Burning Ship (bs)\n - Newton (n)\n - Thorn (t)\n - Triangle Mass (tm)\n - Biomorph (b)\n");
+	ft_putstr("Usage: ./fractol [fractal]\nAvailable fractals:\n - Mandelbrot (m)\n - Julia (j)\n - Spider (s)\n - Burning Ship (bs)\n - Thorn (t)\n - Triangle Mass (tm)\n - Biomorph (b)\n");
 	exit(0);
 }
 
@@ -22,7 +22,7 @@ void	ft_reset_image(t_mlx *mlx)
 {
 	mlx_destroy_image(mlx->mlx, mlx->img);
 	mlx->img = mlx_new_image(mlx->mlx, mlx->w, mlx->h);
-	mlx->data = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->size_line, &mlx->endian);
+	mlx_clear_window(mlx->mlx, mlx->win);
 }
 
 void	ft_info(t_mlx *mlx)
@@ -42,15 +42,12 @@ void	ft_start(t_mlx *mlx)
 {
 	mlx->w = 1920;
 	mlx->h = 1080;
-	mlx->zoom = 0.5;
-	mlx->move_x = 0;
+	mlx->zoom = (mlx->func_index == 1) ? 0.75 : 0.5;
+	mlx->move_x = (mlx->func_index == 2) ? -0.5 : 0;
 	mlx->move_y = 0;
 	mlx->c_re = -0.7;
 	mlx->c_im = 0.27015;
-	if (mlx->func_index == 6)
-		mlx->max_iteration = 5;
-	else
-		mlx->max_iteration = 100;
+	mlx->max_iteration = (mlx->func_index == 5) ? 5 : 100;
 	mlx->julia_change_trigger = 0;
 }
 
@@ -71,7 +68,7 @@ void	ft_thread(t_mlx *mlx)
 		copy[i]->h = 1080;
 		if ((pthread_create(&thread[i], NULL, (void*)mlx->func[mlx->func_index], (void*)copy[i])) != 0)
 		{
-			printf("Thread error!\n");
+			ft_putstr("Thread error!\n");
 			exit(0);
 		}
 		i++;
@@ -81,7 +78,7 @@ void	ft_thread(t_mlx *mlx)
 	{
 		if ((pthread_join(thread[i], NULL)) != 0)
 		{
-			printf("Thread error!\n");
+			ft_putstr("Thread error!\n");
 			exit(0);
 		}
 		i++;
@@ -92,6 +89,7 @@ void	ft_thread(t_mlx *mlx)
 		free(copy[i]);
 		i++;
 	}
+	
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 }
 
@@ -149,23 +147,16 @@ int     key_press(int keycode, t_mlx *mlx)
 	}
 	if (keycode == 24)
 	{
-		if (mlx->func_index == 6)
-			mlx->max_iteration += 1;
-		else
-			mlx->max_iteration += 10;
+		mlx->max_iteration += (mlx->func_index == 6) ? 1 : 10;
+		mlx->max_iteration = (mlx->func_index == 6 && mlx->max_iteration > 11) ? 11 : mlx->max_iteration;
 		ft_reset_image(mlx);
 		ft_thread(mlx);
 	}
 	if (keycode == 27)
 	{
-		if (mlx->func_index == 6)
-			mlx->max_iteration -= 1;
-		else
-			mlx->max_iteration -= 10;
-		if (mlx->max_iteration <= 0 && mlx->func_index != 6)
-			mlx->max_iteration = 10;
-		if (mlx->max_iteration <= 0 && mlx->func_index == 6)
-			mlx->max_iteration = 1;
+		mlx->max_iteration -= (mlx->func_index == 6) ? 1 : 10;
+		mlx->max_iteration = (mlx->max_iteration <= 0 && mlx->func_index != 6) ? 10 : mlx->max_iteration;
+		mlx->max_iteration = (mlx->max_iteration <= 0 && mlx->func_index == 6) ? 1 : mlx->max_iteration;
 		ft_reset_image(mlx);
 		ft_thread(mlx);
 	}
@@ -194,6 +185,14 @@ int     key_press(int keycode, t_mlx *mlx)
 		ft_reset_image(mlx);
 		ft_thread(mlx);
 	}
+	if (keycode == 43)
+		ft_fractal_change(mlx, -1);
+	if (keycode == 47)
+		ft_fractal_change(mlx, 1);
+	if (keycode == 78)
+		ft_color_change(mlx, -1);
+	if (keycode == 69)
+		ft_color_change(mlx, 1);
 	if (keycode == 34)
 		ft_info(mlx);
     return (0);
@@ -207,17 +206,17 @@ int     main(int argc, char const *argv[])
 		ft_error_mes();
     mlx = malloc(sizeof(t_mlx));
 	mlx->fractol = ft_strdup(argv[1]);
-	printf("%s\n", mlx->fractol);
     mlx->mlx = mlx_init();
     mlx->win = mlx_new_window(mlx->mlx, 1920, 1080, "TEST");
 	mlx->img = mlx_new_image(mlx->mlx, 1920, 1080);
-	mlx->data = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->size_line, &mlx->endian);
+	mlx->data = (int*)mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->size_line, &mlx->endian);
 
 	ft_fill_funcs(mlx);
 	ft_fractal_check(mlx);
 	ft_start(mlx);
-	if (mlx->func_index < 0)
-		ft_error_mes();
+	ft_color_set(mlx);
+	mlx->color_index = 0;
+	(mlx->func_index < 0) ? ft_error_mes() : 1;
 
 	ft_thread(mlx);
 
