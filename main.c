@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 13:16:25 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/06 19:48:42 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/07 19:06:50 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_error_mes()
 {
-	ft_putstr("Usage: ./fractol [fractal]\nAvailable fractals:\n - Mandelbrot (m)\n - Julia (j)\n - Spider (s)\n - Burning Ship (bs)\n - Thorn (t)\n - Triangle Mass (tm)\n - Biomorph (b)\n");
+	ft_putstr("Usage: ./fractol [fractal]\nAvailable fractals:\n - Mandelbrot (m)\n - Julia (j)\n - Spider (s)\n - Burning Ship (bs)\n - Thorn (t)\n - Biomorph (b)\n");
 	exit(0);
 }
 
@@ -23,19 +23,6 @@ void	ft_reset_image(t_mlx *mlx)
 	mlx_destroy_image(mlx->mlx, mlx->img);
 	mlx->img = mlx_new_image(mlx->mlx, mlx->w, mlx->h);
 	mlx_clear_window(mlx->mlx, mlx->win);
-}
-
-void	ft_info(t_mlx *mlx)
-{
-	printf("\nh %d\n", mlx->h);
-	printf("w %d\n", mlx->w);
-	printf("zoom %f\n", mlx->zoom);
-	printf("move_x %f\n", mlx->move_x);
-	printf("move_y %f\n", mlx->move_y);
-	printf("iter %d\n", mlx->max_iteration);
-	printf("mlx->julia_change_trigger %d\n", mlx->julia_change_trigger);
-	printf("c_re %f\n", mlx->c_re);
-	printf("c_im %f\n\n", mlx->c_im);
 }
 
 void	ft_start(t_mlx *mlx)
@@ -47,7 +34,9 @@ void	ft_start(t_mlx *mlx)
 	mlx->move_y = 0;
 	mlx->c_re = -0.7;
 	mlx->c_im = 0.27015;
-	mlx->max_iteration = (mlx->func_index == 5) ? 5 : 100;
+	mlx->c_x = 0.5;
+	mlx->c_y = 0;
+	mlx->max_iteration = 100;
 	mlx->julia_change_trigger = 0;
 }
 
@@ -55,7 +44,6 @@ void	ft_thread(t_mlx *mlx)
 {
 	t_mlx		**copy;
 	pthread_t	thread[MAX_THR];
-	int status;
 
 	int i = 0;
 	copy = (t_mlx**)malloc(sizeof(t_mlx*) * MAX_THR);
@@ -89,20 +77,7 @@ void	ft_thread(t_mlx *mlx)
 		free(copy[i]);
 		i++;
 	}
-	
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-}
-
-int		mouse_move(int x, int y, t_mlx *mlx)
-{
-
-	if (mlx->julia_change_trigger == 1)
-	{
-		ft_julia_change(x, y, mlx);
-		ft_thread(mlx);
-		ft_info(mlx);
-	}
-	return (0);
 }
 
 int		mouse_press(int button, int x, int y, t_mlx *mlx)
@@ -116,20 +91,20 @@ int		mouse_press(int button, int x, int y, t_mlx *mlx)
 	}
 	if (button == 4)
 	{
-		//ft_mouse_zoom_in(x, y, mlx);
+		(mlx->point_zoom == 1) ? ft_mouse_zoom_in(x, y, mlx) : 1;
 		mlx->zoom *= 1.25;
 		ft_reset_image(mlx);
 		ft_thread(mlx);
 	}
 	if (button == 5)
 	{
-		//ft_mouse_zoom_out(x, y, mlx);
+		(mlx->point_zoom == 1) ? ft_mouse_zoom_out(x, y, mlx) : 1;
 		mlx->zoom /= 1.25;
 		ft_reset_image(mlx);
 		ft_thread(mlx);
 	}
-	// if (button == 3)
-	// 	mlx->julia_change_trigger = !mlx->julia_change_trigger;
+	if (button == 3)
+		mlx->point_zoom = !mlx->point_zoom;
 	return (0);
 }
 
@@ -147,16 +122,14 @@ int     key_press(int keycode, t_mlx *mlx)
 	}
 	if (keycode == 24)
 	{
-		mlx->max_iteration += (mlx->func_index == 6) ? 1 : 10;
-		mlx->max_iteration = (mlx->func_index == 6 && mlx->max_iteration > 11) ? 11 : mlx->max_iteration;
+		mlx->max_iteration += 10;
 		ft_reset_image(mlx);
 		ft_thread(mlx);
 	}
 	if (keycode == 27)
 	{
-		mlx->max_iteration -= (mlx->func_index == 6) ? 1 : 10;
-		mlx->max_iteration = (mlx->max_iteration <= 0 && mlx->func_index != 6) ? 10 : mlx->max_iteration;
-		mlx->max_iteration = (mlx->max_iteration <= 0 && mlx->func_index == 6) ? 1 : mlx->max_iteration;
+		mlx->max_iteration -= 10;
+		mlx->max_iteration = (mlx->max_iteration <= 0) ? 10 : mlx->max_iteration;
 		ft_reset_image(mlx);
 		ft_thread(mlx);
 	}
@@ -193,8 +166,35 @@ int     key_press(int keycode, t_mlx *mlx)
 		ft_color_change(mlx, -1);
 	if (keycode == 69)
 		ft_color_change(mlx, 1);
-	if (keycode == 34)
-		ft_info(mlx);
+
+	if (keycode == 0)
+	{
+		mlx->c_re -= 0.0005;
+		mlx->c_x -= 0.0025;
+		ft_reset_image(mlx);
+		ft_thread(mlx);
+	}
+	if (keycode == 2)
+	{
+		mlx->c_re += 0.0005;
+		mlx->c_x += 0.0025;
+		ft_reset_image(mlx);
+		ft_thread(mlx);
+	}
+	if (keycode == 1)
+	{
+		mlx->c_im -= 0.0005;
+		mlx->c_y -= 0.0025;
+		ft_reset_image(mlx);
+		ft_thread(mlx);
+	}
+	if (keycode == 13)
+	{
+		mlx->c_im += 0.0005;
+		mlx->c_y += 0.0025;
+		ft_reset_image(mlx);
+		ft_thread(mlx);
+	}
     return (0);
 }
 
@@ -216,16 +216,13 @@ int     main(int argc, char const *argv[])
 	ft_start(mlx);
 	ft_color_set(mlx);
 	mlx->color_index = 0;
+	mlx->point_zoom = 0;
 	(mlx->func_index < 0) ? ft_error_mes() : 1;
 
 	ft_thread(mlx);
 
-	// ft_compile_cl(mlx);
-
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
     mlx_hook(mlx->win, 2, 1, key_press, mlx);
 	mlx_hook(mlx->win, 4, 1, mouse_press, mlx);
-	mlx_hook(mlx->win, 6, 1, mouse_move, mlx);
     mlx_loop(mlx);
     return 0;
 }
