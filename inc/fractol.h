@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 13:17:02 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/08 17:34:52 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/08 18:00:48 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FRACTOL_H
 
 # include "mlx.h"
-# include "libft/libft.h"
+# include "../libft/libft.h"
 
 # include <pthread.h>
 # include <math.h>
