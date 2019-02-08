@@ -6,15 +6,19 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 15:22:17 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/07 18:03:37 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/08 14:36:14 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	ft_bio_temp(t_mlx *mlx, int *i)
+void	ft_bio_temp(t_mlx *mlx, int *i, int x, int y)
 {
 	*i = 0;
+	mlx->pr = 1.77 * (x - mlx->w / 2) /
+		(mlx->w / 2 * mlx->zoom) + mlx->move_x;
+	mlx->pi = (y - mlx->h / 2) /
+		(mlx->h / 2 * mlx->zoom) + mlx->move_y;
 	while ((fabs(mlx->pr) < mlx->max_iteration) &&
 		(fabs(mlx->pi) < mlx->max_iteration) &&
 			(*i < mlx->max_iteration))
@@ -45,14 +49,13 @@ void	ft_biomorph(t_mlx *mlx)
 		x = xo - 1;
 		while (++x < w)
 		{
-			mlx->pr = 1.77 * (x - mlx->w / 2) /
-				(mlx->w / 2 * mlx->zoom) + mlx->move_x;
-			mlx->pi = (y - mlx->h / 2) /
-				(mlx->h / 2 * mlx->zoom) + mlx->move_y;
-			ft_bio_temp(mlx, &i);
+			ft_bio_temp(mlx, &i, x, y);
 			if (!(fabs(mlx->pr) >= 300) && !(fabs(mlx->pi) >= 10000))
-				ft_fill_rect(mlx, x, y, 1, 1, i *
-					mlx->color[mlx->color_index] * (i < mlx->max_iteration));
+			{
+				mlx->rect_color = i * mlx->color[mlx->color_index] *
+					(i < mlx->max_iteration);
+				ft_fill_rect(mlx, x, y);
+			}
 		}
 	}
 	pthread_exit(NULL);

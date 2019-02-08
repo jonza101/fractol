@@ -6,7 +6,7 @@
 /*   By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 13:17:02 by zjeyne-l          #+#    #+#             */
-/*   Updated: 2019/02/07 19:01:17 by zjeyne-l         ###   ########.fr       */
+/*   Updated: 2019/02/08 17:34:52 by zjeyne-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,10 @@ typedef	struct	s_mlx
 	double		c_x;
 	double		c_y;
 
-	int			xo;
-	int			yo;
-	int			delta_x;
-	int			delta_y;
-	int			angle_x;
-	int			angle_y;
+	int			rect_color;
 
 	int			julia_change_trigger;
+	int			bio_change_trigger;
 }				t_mlx;
 
 void			ft_mandelbrot(t_mlx *mlx);
@@ -91,6 +87,9 @@ void			ft_newton(t_mlx *mlx);
 void			ft_thorn(t_mlx *mlx);
 void			ft_biomorph(t_mlx *mlx);
 
+void			ft_julia_change(int x, int y, t_mlx *mlx);
+void			ft_bio_change(int x, int y, t_mlx *mlx);
+
 void			ft_fill_funcs(t_mlx *mlx);
 void			ft_fractal_check(t_mlx *mlx);
 
@@ -100,10 +99,7 @@ void			ft_fractal_change(t_mlx *mlx, int dir);
 void			ft_color_set(t_mlx *mlx);
 void			ft_color_change(t_mlx *mlx, int dir);
 
-void			ft_draw_line(t_mlx *mlx, int xo, int yo,
-											int x, int y, int color);
-void			ft_fill_rect(t_mlx *mlx, int x, int y,
-											int width, int height, int color);
+void			ft_fill_rect(t_mlx *mlx, int x, int y);
 
 void			ft_thread(t_mlx *mlx);
 
@@ -112,5 +108,10 @@ void			ft_mouse_zoom_in(int x, int y, t_mlx *mlx);
 void			ft_mouse_zoom_out(int x, int y, t_mlx *mlx);
 
 void			ft_reset_image(t_mlx *mlx);
+
+void			ft_error_mes(void);
+
+void			ft_key_press_temp(int keycode, t_mlx *mlx);
+void			ft_temp_change(int button, t_mlx *mlx);
 
 #endif
