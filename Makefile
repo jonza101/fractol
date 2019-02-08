@@ -6,7 +6,7 @@
 #    By: zjeyne-l <zjeyne-l@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/21 13:51:37 by zjeyne-l          #+#    #+#              #
-#    Updated: 2019/02/08 18:01:26 by zjeyne-l         ###   ########.fr        #
+#    Updated: 2019/02/08 18:22:01 by zjeyne-l         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ LIB_PATH = libft
 LIB = -lft
 
 # MLX INFO
-MLX = -lpthread -lmlx -framework OpenGL -framework AppKit -framework OpenCL
+MLX = -lpthread -lmlx -framework OpenGL -framework AppKit
 
 # COMPILATION RULES
 CC = gcc
