@@ -37,8 +37,8 @@ int		mouse_press(int button, int x, int y, t_mlx *mlx)
 	}
 	if (button == 5)
 	{
-		(mlx->point_zoom == 1) ? ft_mouse_zoom_out(x, y, mlx) : 1;
 		mlx->zoom /= 1.25;
+		(mlx->point_zoom == 1) ? ft_mouse_zoom_out(x, y, mlx) : 1;
 	}
 	ft_temp_change(button, mlx);
 	if (button == 3)
